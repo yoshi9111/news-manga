@@ -1,0 +1,4 @@
+logs/
+site/drafts.js
+# episodes are added by publish.ps1 only once approved
+episodes/*.json
