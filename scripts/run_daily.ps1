@@ -9,6 +9,14 @@ $log = "$base\logs\$Date.log"
 function Log($m) { Add-Content -Path $log -Value ("[{0}] {1}" -f (Get-Date -Format 'HH:mm:ss'), $m) -Encoding UTF8 }
 function Fail($m) { Log "FAILED: $m"; if (-not $NoOpen) { Start-Process notepad.exe $log }; exit 1 }
 $claude = "$env:USERPROFILE\.local\bin\claude.exe"
+# Long-lived token (scripts\save_token.ps1) so the job survives normal login expiry
+$tokFile = "$env:USERPROFILE\.news_manga\claude_token.dat"
+if (Test-Path $tokFile) {
+  try {
+    $sec = Get-Content $tokFile | ConvertTo-SecureString
+    $env:CLAUDE_CODE_OAUTH_TOKEN = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec))
+  } catch { Log "token load failed: $_" }
+}
 $pdfTool = "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File scripts/fetch_pdf.ps1:*)"
 Set-Location $base
 
