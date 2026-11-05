@@ -1,4 +1,4 @@
-# Store a long-lived Claude token (from `claude setup-token`) for the daily job.
+﻿# Store a long-lived Claude token (from `claude setup-token`) for the daily job.
 # Encrypted with Windows DPAPI: only this Windows user on this PC can decrypt it.
 $dir = "$env:USERPROFILE\.news_manga"
 New-Item -ItemType Directory -Force $dir | Out-Null
