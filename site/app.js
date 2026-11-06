@@ -215,7 +215,7 @@
     trackView(ep);
     document.getElementById('save').addEventListener('click', () => {
       saveImage(ep);
-      if (gaOn) window.gtag('event', 'save_image', { episode_date: ep.date });
+      if (gaOn) window.gtag('event', 'save_image', { episode_date: ep.date, page_location: location.origin + location.pathname + '?ep=' + ep.date });
     });
     window.scrollTo(0, 0);
   }

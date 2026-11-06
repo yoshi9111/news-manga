@@ -93,3 +93,6 @@ if (-not $NoPublish) {
   if ($LASTEXITCODE -ne 0) { Fail 'publish failed' }
 }
 Log 'done'
+if (Test-Path "$env:USERPROFILE\.news_manga\ga_key.json") {
+  & "$PSScriptRoot\views.ps1" *>&1 | Out-File -Append -Encoding utf8 $log
+}
