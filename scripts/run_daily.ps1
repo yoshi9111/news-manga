@@ -91,6 +91,12 @@ else {
 if (-not $NoPublish) {
   & "$PSScriptRoot\publish.ps1" "Add episode $Date" *>&1 | Out-File -Append -Encoding utf8 $log
   if ($LASTEXITCODE -ne 0) { Fail 'publish failed' }
+  # 6. Post the comic image to X (only approved episodes; skipped if already posted)
+  if (Test-Path "$env:USERPROFILE\.news_manga\x_keys.dat") {
+    Log 'posting to X'
+    & powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\post_x.ps1" -Date $Date *>&1 | Out-File -Append -Encoding utf8 $log
+    if ($LASTEXITCODE -ne 0) { Log 'X post failed (site was published)' }
+  }
 }
 Log 'done'
 if (Test-Path "$env:USERPROFILE\.news_manga\ga_key.json") {
