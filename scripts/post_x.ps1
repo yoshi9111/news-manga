@@ -87,4 +87,5 @@ if (-not $mediaId) { throw "upload: no media id: $($up | ConvertTo-Json -Compres
 $payload = @{ text = $text; media = @{ media_ids = @([string]$mediaId) } } | ConvertTo-Json -Compress -Depth 4
 $tw = Send 'https://api.x.com/2/tweets' 'application/json' $utf8.GetBytes($payload)
 [IO.File]::AppendAllText($posted, "$Date`n", $utf8)
+[IO.File]::AppendAllText("$base\logs\x_ids.txt", "$Date`t$($tw.data.id)`n", $utf8)
 Write-Output "posted: https://x.com/i/status/$($tw.data.id)"
